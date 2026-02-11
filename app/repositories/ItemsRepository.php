@@ -22,6 +22,26 @@ class ItemsRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function listExcept($id)
+    {
+        $query = "SELECT * FROM items_with_first_photo WHERE id_owner != ?";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([ $id ]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function findBy($id)
+    {
+        $query = "SELECT * FROM items_with_first_photo WHERE id = ?";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([ $id ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function create($title, $description, $id_category, $id_owner, $estimated_price)
     {
         $query = "INSERT INTO takalo_items (title, description, id_category, id_owner, estimated_price) VALUES (?, ?, ?, ?, ?)";
@@ -56,6 +76,14 @@ class ItemsRepository
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([ $id ]);
+    }
+
+    public function changeOwner($id, $id_owner)
+    {
+        $query = "UPDATE takalo_items SET id_owner = ? WHERE id = ?";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([ $id_owner, $id ]);
     }
 }
 

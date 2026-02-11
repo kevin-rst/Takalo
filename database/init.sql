@@ -83,3 +83,39 @@ WHERE tip.id = (
     FROM takalo_item_photos 
     WHERE id_item = ti.id
 );
+
+CREATE VIEW demands_with_items_first_photo AS
+SELECT d.id AS demand_id,
+       d.created_at AS demand_created_at,
+       d.id_item1,
+       d.id_item2,
+       d.id_status,
+       ds.libelle AS status_libelle,
+       i1.id AS item1_id,
+       i1.title AS item1_title,
+       i1.description AS item1_description,
+       i1.id_category AS item1_id_category,
+       i1.id_owner AS item1_id_owner,
+       i1.created_at AS item1_created_at,
+       i1.estimated_price AS item1_estimated_price,
+       i1.id_photo AS item1_id_photo,
+       i1.photo_url AS item1_photo_url,
+       i1.owner_username AS item1_owner_username,
+       i1.owner_email AS item1_owner_email,
+       i1.category_libelle AS item1_category_libelle,
+       i2.id AS item2_id,
+       i2.title AS item2_title,
+       i2.description AS item2_description,
+       i2.id_category AS item2_id_category,
+       i2.id_owner AS item2_id_owner,
+       i2.created_at AS item2_created_at,
+       i2.estimated_price AS item2_estimated_price,
+       i2.id_photo AS item2_id_photo,
+       i2.photo_url AS item2_photo_url,
+       i2.owner_username AS item2_owner_username,
+       i2.owner_email AS item2_owner_email,
+       i2.category_libelle AS item2_category_libelle
+FROM takalo_demands d
+JOIN takalo_demand_status ds ON d.id_status = ds.id
+JOIN items_with_first_photo i1 ON d.id_item1 = i1.id
+JOIN items_with_first_photo i2 ON d.id_item2 = i2.id;

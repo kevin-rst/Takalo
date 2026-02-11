@@ -38,6 +38,9 @@
 
         <input type="submit" value="Valider">
     </form>
+
+    <br>
+    <a href="<?= BASE_URL ?>/frontoffice/items/oneself"><input type="button" value="Retour"></a>
 </body>
 
 </html>

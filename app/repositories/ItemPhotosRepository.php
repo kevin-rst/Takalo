@@ -45,5 +45,33 @@ class ItemPhotosRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([ $id_item ]);
     }
+
+    public function findByItem($id_item) {
+        $query = "SELECT * FROM takalo_item_photos WHERE id_item = ?";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([ $id_item ]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function findById($id)
+    {
+        $query = "SELECT * FROM takalo_item_photos WHERE id = ?";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([ $id ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function delete($id)
+    {
+        $query = "DELETE FROM takalo_item_photos WHERE id = ?";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([ $id ]);
+    }
+
 }
 

@@ -3,9 +3,9 @@ INSERT INTO takalo_user_roles (libelle) VALUES
 ('user');
 
 INSERT INTO takalo_users (username, email, password_hash, id_role) VALUES 
-('admin', 'admin@admin.com', '$2y$10$l3Mgzc8Qw8u4Z53MIdTlG.3NeyajmwQxPLFj7sW9gktL3x4S4dffy', 1),
 ('kevin', 'kev@gmail.com', '$2y$10$l3Mgzc8Qw8u4Z53MIdTlG.3NeyajmwQxPLFj7sW9gktL3x4S4dffy', 2),
-('manoa', 'manoa@gmail.com', '$2y$10$l3Mgzc8Qw8u4Z53MIdTlG.3NeyajmwQxPLFj7sW9gktL3x4S4dffy', 2);
+('manoa', 'manoa@gmail.com', '$2y$10$l3Mgzc8Qw8u4Z53MIdTlG.3NeyajmwQxPLFj7sW9gktL3x4S4dffy', 2),
+('admin', 'admin@admin.com', '$2y$10$l3Mgzc8Qw8u4Z53MIdTlG.3NeyajmwQxPLFj7sW9gktL3x4S4dffy', 1);
 
 INSERT INTO takalo_item_categories (libelle) VALUES
 ('Électronique'),
@@ -30,3 +30,8 @@ INSERT INTO takalo_item_photos (url,id_item) VALUES
 ('table_1.jpg', 3),
 ('movie_1.jpg', 4),
 ('toy_1.jpg', 5);
+
+INSERT INTO takalo_demand_status (libelle) VALUES
+('En attente'),
+('Acceptée'),
+('Refusée');

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\repositories\DemandsRepository;
 use app\repositories\ItemPhotosRepository;
 use app\repositories\ItemsRepository;
 use app\repositories\ItemCategoriesRepository;
@@ -29,19 +30,35 @@ class ItemsController
 
         $list = $repo->list($_SESSION['users']['id']);
 
-        $this->app->render('frontoffice/items/oneselfItems.php', [ 'items' => $list ]);
+        $this->app->render('frontoffice/items/oneselfItems.php', ['items' => $list]);
     }
 
-    public function showForm() {
+    public function listOthersItems()
+    {
+        $pdo = $this->app->db();
+        $repo = new ItemsRepository($pdo);
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $list = $repo->listExcept($_SESSION['users']['id']);
+
+        $this->app->render('frontoffice/items/othersItems.php', ['items' => $list]);
+    }
+
+    public function showForm()
+    {
         $pdo = $this->app->db();
         $catRepo = new ItemCategoriesRepository($pdo);
 
         $categories = $catRepo->list();
 
-        $this->app->render('frontoffice/items/form', [ 'itemCategories' => $categories ]);
+        $this->app->render('frontoffice/items/form', ['itemCategories' => $categories]);
     }
 
-    public function showSpecifiedForm($id) {
+    public function showSpecifiedForm($id)
+    {
         $pdo = $this->app->db();
         $repo = new ItemsRepository($pdo);
         $catRepo = new ItemCategoriesRepository($pdo);
@@ -49,10 +66,11 @@ class ItemsController
         $categories = $catRepo->list();
         $item = $repo->findById($id);
 
-        $this->app->render('frontoffice/items/form', [ 'itemCategories' => $categories, 'item' => $item ]);
+        $this->app->render('frontoffice/items/form', ['itemCategories' => $categories, 'item' => $item]);
     }
 
-    public function save() {
+    public function save()
+    {
         $pdo = $this->app->db();
         $repo = new ItemsRepository($pdo);
         $svc = new ItemsService($repo);
@@ -79,5 +97,24 @@ class ItemsController
         $svc->delete($id, $pdo);
 
         $this->app->redirect('/frontoffice/items/oneself');
+    }
+
+    public function showCard($id)
+    {
+        $pdo = $this->app->db();
+        $repo = new ItemsRepository($pdo);
+        $photoRepo = new ItemPhotosRepository($pdo);
+        $demandsRepo = new DemandsRepository($pdo);
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $item = $repo->findBy( $id);
+        $photos = $photoRepo->findByItem($item['id']);
+
+        $demands = $demandsRepo->getDemandsWithOnesObjet($id, $_SESSION['users']['id']);
+
+        $this->app->render('frontoffice/items/card', [ 'item' => $item, 'photos' => $photos, 'demands' => $demands ]);
     }
 }
