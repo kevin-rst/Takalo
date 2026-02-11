@@ -64,3 +64,23 @@ CREATE TABLE takalo_exchanges (
     FOREIGN KEY (id_item1) REFERENCES takalo_items(id),
     FOREIGN KEY (id_item2) REFERENCES takalo_items(id)
 );
+
+CREATE OR REPLACE VIEW v_item_details AS
+SELECT 
+    i.id AS item_id,
+    i.title,
+    i.description,
+    c.libelle AS category,
+    c.id AS category_id,
+    u.username AS owner,
+    p.url AS photo_url,
+    i.estimated_price,
+    i.created_at
+FROM 
+    takalo_items i
+JOIN 
+    takalo_item_categories c ON i.id_category = c.id
+JOIN 
+    takalo_users u ON i.id_owner = u.id
+LEFT JOIN 
+    takalo_item_photos p ON i.id_photo = p.id;

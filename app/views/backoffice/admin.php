@@ -9,5 +9,7 @@
     <h1>Welcome !!</h1>
 
     <p><a href="<?= BASE_URL ?>/statistique">voir les statistiques</a></p>
+
+    <p><a href="<?= BASE_URL ?>/">home</a></p>
 </body>
 </html>

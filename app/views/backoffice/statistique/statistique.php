@@ -11,13 +11,15 @@
     <?php if ($user_number ==0) { ?>
         <p>Aucun utilisateur inscrit...</p>
     <?php } else { ?>
-        <p><?= $user_number ?> inscrits</p>
+        <p><?= $user_number ?> utilisateurs inscrits</p>
     <?php } ?>
 
     <?php if ($exchange_number ==0) { ?>
-        <p>Aucune échanges effectuées...</p>
+        <p>Aucun échange effectué...</p>
     <?php } else { ?>
-        <p><?= $exchange_number ?> effectuées</p>
+        <p><?= $exchange_number ?> échanges effectués</p>
     <?php } ?>
+
+    <p><a href="<?= BASE_URL ?>/admin">retour</a></p>
 </body>
 </html>

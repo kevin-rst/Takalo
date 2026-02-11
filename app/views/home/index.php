@@ -9,5 +9,6 @@
     <h1>Takalo</h1>
 
     <p><a href="<?= BASE_URL ?>/admin">se connecter en tant qu'admin</a></p>
+    <p><a href="<?= BASE_URL ?>/user">se connecter avec mon compte</a></p>
 </body>
 </html>
