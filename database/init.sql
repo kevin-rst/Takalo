@@ -23,11 +23,6 @@ CREATE TABLE takalo_item_categories (
     libelle VARCHAR(255) NOT NULL UNIQUE
 );
 
-CREATE TABLE takalo_item_photos (
-    id SERIAL PRIMARY KEY,
-    url VARCHAR(255) NOT NULL
-);
-
 CREATE TABLE takalo_items (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -40,12 +35,11 @@ CREATE TABLE takalo_items (
     FOREIGN KEY (id_owner) REFERENCES takalo_users(id)
 );
 
-CREATE TABLE takalo_item_photos_items (
+CREATE TABLE takalo_item_photos (
     id SERIAL PRIMARY KEY,
-    id_item INT NOT NULL,
-    id_photo INT NOT NULL,
-    FOREIGN KEY (id_item) REFERENCES takalo_items(id),
-    FOREIGN KEY (id_photo) REFERENCES takalo_item_photos(id)
+    url VARCHAR(255) NOT NULL,
+    id_item INT,
+    FOREIGN KEY (id_item) REFERENCES takalo_items(id)
 );
 
 CREATE TABLE takalo_demand_status (
@@ -71,4 +65,21 @@ CREATE TABLE takalo_exchanges (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_item1) REFERENCES takalo_items(id),
     FOREIGN KEY (id_item2) REFERENCES takalo_items(id)
+);
+
+CREATE VIEW items_with_first_photo AS
+SELECT ti.*, 
+       tip.id as id_photo, 
+       tip.url as photo_url,
+       tu.username as owner_username,
+       tu.email as owner_email,
+       tic.libelle as category_libelle
+FROM takalo_items ti 
+JOIN takalo_item_photos tip ON ti.id = tip.id_item 
+JOIN takalo_users tu ON ti.id_owner = tu.id
+JOIN takalo_item_categories tic ON ti.id_category = tic.id
+WHERE tip.id = (
+    SELECT MIN(id) 
+    FROM takalo_item_photos 
+    WHERE id_item = ti.id
 );

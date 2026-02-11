@@ -16,6 +16,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <body>
     <h1>Utilisateur: <?= $_SESSION['users']['username'] ?></h1>
 
+    <a href="<?= BASE_URL ?>/frontoffice/items/oneself">Mes objets</a>
     <a href="<?= BASE_URL ?>/logout">Se deconnecter</a>
 </body>
 </html>

@@ -38,7 +38,7 @@ class ItemCategoriesRepository
         $stmt->execute([ $libelle, $id ]);
     }
 
-    public function getById($id) 
+    public function getById($id)
     {
         $query = "SELECT * FROM takalo_item_categories WHERE id = ?";
 

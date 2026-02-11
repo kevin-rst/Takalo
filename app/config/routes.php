@@ -1,6 +1,7 @@
 <?php
 
 use app\controllers\ItemCategoriesController;
+use app\controllers\ItemsController;
 use app\controllers\RegisterController;
 use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
@@ -46,9 +47,19 @@ $router->group('', function(Router $router) use ($app) {
 
 	});
 
+	// frontoffice
 	$router->group('/frontoffice', function() use ($router, $app) {
 		$router->get('/', function() use ($app) {
 			$app->render('frontoffice/index');
+		});
+
+		// objects
+		$router->group('/items', function() use ($router, $app) {
+			$router->get('/oneself', [ ItemsController::class, 'listOneselfItems' ]);
+			$router->get('/showForm', [ ItemsController::class, 'showForm' ]);
+			$router->get('/showForm/@id', [ ItemsController::class, 'showSpecifiedForm' ]);
+			$router->get('/delete/@id', [ ItemsController::class, 'delete' ]);
+			$router->post('/save', [ ItemsController::class, 'save' ]);
 		});
 	});
 
