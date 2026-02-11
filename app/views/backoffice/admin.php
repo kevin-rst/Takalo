@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Admin-Dashboard</title>
 </head>
 <body>
-    <h1>Takalo</h1>
+    <h1>Welcome !!</h1>
 
-    <p><a href="<?= BASE_URL ?>/admin">se connecter en tant qu'admin</a></p>
+    <p><a href="<?= BASE_URL ?>/statistique">voir les statistiques</a></p>
 </body>
 </html>
