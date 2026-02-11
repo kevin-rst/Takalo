@@ -35,10 +35,16 @@ CREATE TABLE takalo_items (
     id_category INT,
     id_owner INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    id_photo INT,
     estimated_price DECIMAL(10, 2),
     FOREIGN KEY (id_category) REFERENCES takalo_item_categories(id),
-    FOREIGN KEY (id_owner) REFERENCES takalo_users(id),
+    FOREIGN KEY (id_owner) REFERENCES takalo_users(id)
+);
+
+CREATE TABLE takalo_item_photos_items (
+    id SERIAL PRIMARY KEY,
+    id_item INT NOT NULL,
+    id_photo INT NOT NULL,
+    FOREIGN KEY (id_item) REFERENCES takalo_items(id),
     FOREIGN KEY (id_photo) REFERENCES takalo_item_photos(id)
 );
 
