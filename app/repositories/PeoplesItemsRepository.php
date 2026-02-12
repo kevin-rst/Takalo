@@ -1,8 +1,8 @@
 <?php 
-    namespace app\repository;
+    namespace app\repositories;
     use PDO;
 
-class ItemRepository {
+class PeoplesItemsRepository {
     private $pdo;
 
     public function __construct(PDO $pdo)
