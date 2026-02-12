@@ -1,0 +1,24 @@
+Index: app/config/routes.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nuse app\\controllers\\DemandsController;\r\nuse app\\controllers\\ItemCategoriesController;\r\nuse app\\controllers\\ItemPhotosController;\r\nuse app\\controllers\\ItemsController;\r\nuse app\\controllers\\RegisterController;\r\nuse app\\middlewares\\SecurityHeadersMiddleware;\r\nuse flight\\Engine;\r\nuse flight\\net\\Router;\r\nuse app\\controllers\\LoginController;\r\n\r\n/** \r\n * @var Router $router\r\n * @var Engine $app\t\r\n */\r\n\r\n// This wraps all routes in the group with the SecurityHeadersMiddleware\r\n$router->group('', function(Router $router) use ($app) {\r\n\r\n\t$router->get('/', function() use ($app) {\r\n\t\t$app->redirect('/register');\r\n\t});\r\n\r\n\t// registration\r\n\t$router->get('/register', [ RegisterController::class, 'showRegister' ]);\r\n\t$router->post('/register', [ RegisterController::class, 'postRegister' ]);\r\n\r\n\t// login\r\n\t$router->get('/login', [ LoginController::class, 'showLogin' ]);\r\n\t$router->post('/login', [ LoginController::class, 'postLogin' ]);\r\n\r\n\t// logout\r\n\t$router->get('/logout', [ LoginController::class, 'logout' ]);\r\n\r\n\t// backoffice\r\n\t$router->group('/backoffice', function() use ($router, $app) {\r\n\t\t$router->get('/', function () use ($app) {\r\n\t\t\t$app->render('backoffice/index');\r\n\t\t});\r\n\r\n\t\t// categories\r\n\t\t$router->group('/categories', function() use ($router, $app) {\r\n\t\t\t$router->get('/list', [ ItemCategoriesController::class, 'list' ]);\r\n\t\t\t$router->get('/delete/@id', [ ItemCategoriesController::class, 'delete' ]);\r\n\t\t\t$router->get('/showForm/@id', [ ItemCategoriesController::class, 'showForm' ]);\r\n\t\t\t$router->post('/save', [ ItemCategoriesController::class, 'save' ]);\r\n\t\t});\r\n\r\n\t});\r\n\r\n\t// frontoffice\r\n\t$router->group('/frontoffice', function() use ($router, $app) {\r\n\t\t$router->get('/', function() use ($app) {\r\n\t\t\t$app->render('frontoffice/index');\r\n\t\t});\r\n\r\n\t\t// items\r\n\t\t$router->group('/items', function() use ($router, $app) {\r\n\t\t\t// oneself\r\n\t\t\t$router->get('/oneself', [ ItemsController::class, 'listOneselfItems' ]);\r\n\t\t\t$router->get('/showForm', [ ItemsController::class, 'showForm' ]);\r\n\t\t\t$router->get('/showForm/@id', [ ItemsController::class, 'showSpecifiedForm' ]);\r\n\t\t\t$router->get('/delete/@id', [ ItemsController::class, 'delete' ]);\r\n\t\t\t$router->post('/save', [ ItemsController::class, 'save' ]);\r\n\t\t\t$router->get('/card/@id', [ ItemsController::class, 'showCard' ]);\r\n\r\n\t\t\t// others\r\n\t\t\t$router->get('/others', [ ItemsController::class, 'listOthersItems' ]);\r\n\t\t});\r\n\r\n\t\t// demands\r\n\t\t$router->group('/demands', function() use ($router, $app) {\r\n\t\t\t$router->get('/', [ DemandsController::class, 'list' ]);\r\n\t\t\t$router->get('/prepare/@item2_id', [ DemandsController::class, 'prepare' ]);\r\n\t\t\t$router->post('/demand', [ DemandsController::class, 'demand' ]);\r\n\t\t\t$router->get('/accept/@id', [ DemandsController::class, 'accept' ]);\r\n\t\t\t$router->get('/deny/@id', [ DemandsController::class, 'deny' ]);\r\n\t\t});\r\n\r\n\t\t// itemPhotos\r\n\t\t$router->group('/itemPhotos', function() use ($router, $app) {\r\n\t\t\t$router->post('/save', [ ItemPhotosController::class, 'save' ]);\r\n\t\t\t$router->get('/showForm/@id', [ ItemPhotosController::class, 'showForm' ]);\r\n\t\t\t$router->get('/delete/@id', [ ItemPhotosController::class, 'delete' ]);\r\n\t\t});\r\n\t});\r\n\r\n}, [ SecurityHeadersMiddleware::class ]);
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/config/routes.php b/app/config/routes.php
+--- a/app/config/routes.php	(revision 89305cd837f12312f2c483b4d4e610892b291bdd)
++++ b/app/config/routes.php	(date 1770903447730)
+@@ -49,6 +49,13 @@
+ 
+ 	});
+ 
++	//ui 
++
++	
++	$router->group('/ui,', function() use ($router, $app) {
++		$router->get('/items/peoples_items/@item2_id', [ ItemsController::class, 'prepare' ]);
++	});
++	
+ 	// frontoffice
+ 	$router->group('/frontoffice', function() use ($router, $app) {
+ 		$router->get('/', function() use ($app) {
