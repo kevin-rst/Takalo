@@ -23,7 +23,32 @@ class PeoplesItemsRepository {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    
+    public function getMyItems($current_id) {
+        $query = "
+        SELECT 
+            id,
+            title
+        FROM takalo_items
+        WHERE id_owner = ?
+        ";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([$current_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function proposeExchange($item1_id, $item2_id)
+{
+    // 1 = statut "En attente" par exemple
+    $status_id = 1;
+
+    $query = "INSERT INTO takalo_demands (id_item1, id_item2, id_status) VALUES (?, ?, ?)";
+    $stmt = $this->pdo->prepare($query);
+    return $stmt->execute([$item1_id, $item2_id, $status_id]);
 }
+
+}
+
+    
+
 
 ?>

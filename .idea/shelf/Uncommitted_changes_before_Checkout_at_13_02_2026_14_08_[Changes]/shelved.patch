@@ -1,0 +1,309 @@
+Index: database/init.sql
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>CREATE DATABASE takalo;\r\n\\c takalo;\r\n\r\nCREATE TABLE takalo_roles (\r\n    id SERIAL PRIMARY KEY,\r\n    libelle VARCHAR(255) NOT NULL UNIQUE\r\n);\r\n\r\nCREATE TABLE takalo_users (\r\n    id SERIAL PRIMARY KEY,\r\n    username VARCHAR(255) NOT NULL UNIQUE,\r\n    email VARCHAR(255) NOT NULL UNIQUE,\r\n    password VARCHAR(255) NOT NULL,\r\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\r\n    id_role INT,\r\n    FOREIGN KEY (id_role) REFERENCES takalo_roles(id)\r\n);\r\n\r\nCREATE TABLE takalo_categories (\r\n    id SERIAL PRIMARY KEY,\r\n    libelle VARCHAR(255) NOT NULL UNIQUE\r\n);\r\n\r\nCREATE TABLE takalo_photos (\r\n    id SERIAL PRIMARY KEY,\r\n    url VARCHAR(255) NOT NULL\r\n);\r\n\r\nCREATE TABLE takalo_items (\r\n    id SERIAL PRIMARY KEY,\r\n    title VARCHAR(255) NOT NULL,\r\n    description TEXT,\r\n    id_category INT,\r\n    id_owner INT,\r\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\r\n    id_photo INT,\r\n    estimated_price DECIMAL(10, 2),\r\n    FOREIGN KEY (id_category) REFERENCES takalo_categories(id),\r\n    FOREIGN KEY (id_owner) REFERENCES takalo_users(id),\r\n    FOREIGN KEY (id_photo) REFERENCES takalo_photos(id)\r\n);\r\n\r\nCREATE TABLE takalo_status (\r\n    id SERIAL PRIMARY KEY,\r\n    libelle VARCHAR(255) NOT NULL UNIQUE\r\n);\r\n\r\nCREATE TABLE takalo_demands (\r\n    id SERIAL PRIMARY KEY,\r\n    id_item1 INT,\r\n    id_item2 INT,\r\n    id_status INT,\r\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\r\n    FOREIGN KEY (id_item1) REFERENCES takalo_items(id),\r\n    FOREIGN KEY (id_item2) REFERENCES takalo_items(id),\r\n    FOREIGN KEY (id_status) REFERENCES takalo_status(id)\r\n);\r\n\r\nCREATE TABLE takalo_exchanges (\r\n    id SERIAL PRIMARY KEY,\r\n    id_item1 INT,\r\n    id_item2 INT,\r\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\r\n    FOREIGN KEY (id_item1) REFERENCES takalo_items(id),\r\n    FOREIGN KEY (id_item2) REFERENCES takalo_items(id)\r\n);
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/database/init.sql b/database/init.sql
+--- a/database/init.sql	(revision 8ccd6120cc641c9df01721e5bc82ed27ce323bbf)
++++ b/database/init.sql	(date 1770970837748)
+@@ -1,66 +1,66 @@
+-CREATE DATABASE takalo;
+-\c takalo;
++    CREATE DATABASE takalo;
++    \c takalo;
+ 
+-CREATE TABLE takalo_roles (
+-    id SERIAL PRIMARY KEY,
+-    libelle VARCHAR(255) NOT NULL UNIQUE
+-);
++    CREATE TABLE takalo_roles (
++        id SERIAL PRIMARY KEY,
++        libelle VARCHAR(255) NOT NULL UNIQUE
++    );
+ 
+-CREATE TABLE takalo_users (
+-    id SERIAL PRIMARY KEY,
+-    username VARCHAR(255) NOT NULL UNIQUE,
+-    email VARCHAR(255) NOT NULL UNIQUE,
+-    password VARCHAR(255) NOT NULL,
+-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+-    id_role INT,
+-    FOREIGN KEY (id_role) REFERENCES takalo_roles(id)
+-);
++    CREATE TABLE takalo_users (
++        id SERIAL PRIMARY KEY,
++        username VARCHAR(255) NOT NULL UNIQUE,
++        email VARCHAR(255) NOT NULL UNIQUE,
++        password VARCHAR(255) NOT NULL,
++        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
++        id_role INT,
++        FOREIGN KEY (id_role) REFERENCES takalo_roles(id)
++    );
+ 
+-CREATE TABLE takalo_categories (
+-    id SERIAL PRIMARY KEY,
+-    libelle VARCHAR(255) NOT NULL UNIQUE
+-);
++    CREATE TABLE takalo_categories (
++        id SERIAL PRIMARY KEY,
++        libelle VARCHAR(255) NOT NULL UNIQUE
++    );
+ 
+-CREATE TABLE takalo_photos (
+-    id SERIAL PRIMARY KEY,
+-    url VARCHAR(255) NOT NULL
+-);
++    CREATE TABLE takalo_photos (
++        id SERIAL PRIMARY KEY,
++        url VARCHAR(255) NOT NULL
++    );
+ 
+-CREATE TABLE takalo_items (
+-    id SERIAL PRIMARY KEY,
+-    title VARCHAR(255) NOT NULL,
+-    description TEXT,
+-    id_category INT,
+-    id_owner INT,
+-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+-    id_photo INT,
+-    estimated_price DECIMAL(10, 2),
+-    FOREIGN KEY (id_category) REFERENCES takalo_categories(id),
+-    FOREIGN KEY (id_owner) REFERENCES takalo_users(id),
+-    FOREIGN KEY (id_photo) REFERENCES takalo_photos(id)
+-);
++    CREATE TABLE takalo_items (
++        id SERIAL PRIMARY KEY,
++        title VARCHAR(255) NOT NULL,
++        description TEXT,
++        id_category INT,
++        id_owner INT,
++        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
++        id_photo INT,
++        estimated_price DECIMAL(10, 2),
++        FOREIGN KEY (id_category) REFERENCES takalo_categories(id),
++        FOREIGN KEY (id_owner) REFERENCES takalo_users(id),
++        FOREIGN KEY (id_photo) REFERENCES takalo_photos(id)
++    );
+ 
+-CREATE TABLE takalo_status (
+-    id SERIAL PRIMARY KEY,
+-    libelle VARCHAR(255) NOT NULL UNIQUE
+-);
++    CREATE TABLE takalo_status (
++        id SERIAL PRIMARY KEY,
++        libelle VARCHAR(255) NOT NULL UNIQUE
++    );
+ 
+-CREATE TABLE takalo_demands (
+-    id SERIAL PRIMARY KEY,
+-    id_item1 INT,
+-    id_item2 INT,
+-    id_status INT,
+-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+-    FOREIGN KEY (id_item1) REFERENCES takalo_items(id),
+-    FOREIGN KEY (id_item2) REFERENCES takalo_items(id),
+-    FOREIGN KEY (id_status) REFERENCES takalo_status(id)
+-);
++    CREATE TABLE takalo_demands (
++        id SERIAL PRIMARY KEY,
++        id_item1 INT,
++        id_item2 INT,
++        id_status INT,
++        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
++        FOREIGN KEY (id_item1) REFERENCES takalo_items(id),
++        FOREIGN KEY (id_item2) REFERENCES takalo_items(id),
++        FOREIGN KEY (id_status) REFERENCES takalo_status(id)
++    );
+ 
+-CREATE TABLE takalo_exchanges (
+-    id SERIAL PRIMARY KEY,
+-    id_item1 INT,
+-    id_item2 INT,
+-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+-    FOREIGN KEY (id_item1) REFERENCES takalo_items(id),
+-    FOREIGN KEY (id_item2) REFERENCES takalo_items(id)
+-);
+\ No newline at end of file
++    CREATE TABLE takalo_exchanges (
++        id SERIAL PRIMARY KEY,
++        id_item1 INT,
++        id_item2 INT,
++        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
++        FOREIGN KEY (id_item1) REFERENCES takalo_items(id),
++        FOREIGN KEY (id_item2) REFERENCES takalo_items(id)
++    );
+\ No newline at end of file
+Index: app/config/bootstrap.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\n/*\r\n * This is the file called bootstrap who's job is to make sure that all the\r\n * required services, plugins, connections, etc. are loaded and ready to go\r\n * for every request made to the application.\r\n */\r\n$ds = DIRECTORY_SEPARATOR;\r\nrequire(__DIR__ . $ds . '..' . $ds . '..' . $ds . 'vendor' . $ds . 'autoload.php');\r\nif(file_exists(__DIR__. $ds . 'config.php') === false) {\r\n\tFlight::halt(500, 'Config file not found. Please create a config.php file in the app/config directory to get started.');\r\n}\r\n\r\n// It is better practice to not use static methods for everything. It makes your\r\n// app much more difficult to unit test easily.\r\n// This is important as it connects any static calls to the same $app object\r\n$app = Flight::app();\r\n\r\n/*\r\n * Load the config file\r\n * P.S. When you require a php file and that file returns an array, the array\r\n * will be returned by the require statement where you can assign it to a var.\r\n */\r\n$config = require('config.php');\r\n\r\n/*\r\n * Load the services file.\r\n * A \"service\" is basically something special that you want to use in your app.\r\n * For instance, need a database connection? You can set up a database service.\r\n * Need caching? You can setup a Redis service\r\n * Need to send email? You can setup a mailgun/sendgrid/whatever service to send emails.\r\n * Need to send SMS? You can setup a Twilio service.\r\n * \r\n * All the services and how they are configured are setup in the services file.\r\n * In many cases, services are all attached to something called a \"services container\"\r\n * or more simply, a \"container\". The container manages if you should share the same\r\n * service, or if you should create a new instance of the service every time you need it.\r\n * That's a discussion for another day. Suffice to say, that Flight has a basic concept\r\n * of a services container by registering classes to the Engine class.\r\n */ \r\nrequire('services.php');\r\n\r\n// Whip out the ol' router and we'll pass that to the routes file\r\n$router = $app->router();\r\n\r\n/*\r\n * Load the routes file. the $router variable above is passed into the routes.php\r\n * file below so that you can define routes in that file.\r\n * A route is really just a URL, but saying route makes you sound cooler.\r\n * When someone hits that URL, you point them to a function or method \r\n * that will handle the request.\r\n */\r\nrequire('routes.php');\r\n\r\ndefine('BASE_URL', $app->get('flight.base_url'));\r\n// At this point, your app should have all the instructions it needs and it'll\r\n// \"start\" processing everything. This is where the magic happens.\r\n$app->start();\r\n/*\r\n .----..---.  .--.  .----.  .---.     .---. .-. .-.  .--.  .---.    .----. .-. .-..----. .----..-.  .-.\r\n{ {__ {_   _}/ {} \\ | {}  }{_   _}   {_   _}| {_} | / {} \\{_   _}   | {}  }| { } || {}  }| {}  }\\ \\/ / \r\n.-._} } | | /  /\\  \\| .-. \\  | |       | |  | { } |/  /\\  \\ | |     | .--' | {_} || .--' | .--'  }  {  \r\n`----'  `-' `-'  `-'`-' `-'  `-'       `-'  `-' `-'`-'  `-' `-'     `-'    `-----'`-'    `-'     `--'  \r\n*/
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/config/bootstrap.php b/app/config/bootstrap.php
+--- a/app/config/bootstrap.php	(revision 8ccd6120cc641c9df01721e5bc82ed27ce323bbf)
++++ b/app/config/bootstrap.php	(date 1770974443758)
+@@ -1,64 +1,37 @@
+ <?php
++use flight\Engine;
++
++require __DIR__ . '/../../vendor/autoload.php';
++
++$app = new Engine();
++
+ 
+-/*
+- * This is the file called bootstrap who's job is to make sure that all the
+- * required services, plugins, connections, etc. are loaded and ready to go
+- * for every request made to the application.
+- */
++error_reporting(E_ALL);
++ini_set('display_errors', 1);
++ini_set('display_startup_errors', 1);
++// -------------------------------------------------
++// Database configuration
++// -------------------------------------------------
++$dbConfig = require __DIR__ . '/config.php';
++$db = $dbConfig['database'];
++
++$dsn = "pgsql:host={$db['host']};port={$db['port']};dbname={$db['dbname']}";
++
++try {
++    $pdo = new PDO($dsn, $db['user'], $db['password'], [
++        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
++        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
++    ]);
++} catch (PDOException $e) {
++    die("Erreur de connexion PostgreSQL : " . $e->getMessage());
++}
++
++// Stocke PDO dans Flight pour y accéder depuis les controllers
++$app->set('pdo', $pdo);
++
++// -------------------------------------------------
++// Vue path
++// -------------------------------------------------
+ $ds = DIRECTORY_SEPARATOR;
+-require(__DIR__ . $ds . '..' . $ds . '..' . $ds . 'vendor' . $ds . 'autoload.php');
+-if(file_exists(__DIR__. $ds . 'config.php') === false) {
+-	Flight::halt(500, 'Config file not found. Please create a config.php file in the app/config directory to get started.');
+-}
+-
+-// It is better practice to not use static methods for everything. It makes your
+-// app much more difficult to unit test easily.
+-// This is important as it connects any static calls to the same $app object
+-$app = Flight::app();
+-
+-/*
+- * Load the config file
+- * P.S. When you require a php file and that file returns an array, the array
+- * will be returned by the require statement where you can assign it to a var.
+- */
+-$config = require('config.php');
+-
+-/*
+- * Load the services file.
+- * A "service" is basically something special that you want to use in your app.
+- * For instance, need a database connection? You can set up a database service.
+- * Need caching? You can setup a Redis service
+- * Need to send email? You can setup a mailgun/sendgrid/whatever service to send emails.
+- * Need to send SMS? You can setup a Twilio service.
+- * 
+- * All the services and how they are configured are setup in the services file.
+- * In many cases, services are all attached to something called a "services container"
+- * or more simply, a "container". The container manages if you should share the same
+- * service, or if you should create a new instance of the service every time you need it.
+- * That's a discussion for another day. Suffice to say, that Flight has a basic concept
+- * of a services container by registering classes to the Engine class.
+- */ 
+-require('services.php');
+-
+-// Whip out the ol' router and we'll pass that to the routes file
+-$router = $app->router();
+-
+-/*
+- * Load the routes file. the $router variable above is passed into the routes.php
+- * file below so that you can define routes in that file.
+- * A route is really just a URL, but saying route makes you sound cooler.
+- * When someone hits that URL, you point them to a function or method 
+- * that will handle the request.
+- */
+-require('routes.php');
+-
+-define('BASE_URL', $app->get('flight.base_url'));
+-// At this point, your app should have all the instructions it needs and it'll
+-// "start" processing everything. This is where the magic happens.
+-$app->start();
+-/*
+- .----..---.  .--.  .----.  .---.     .---. .-. .-.  .--.  .---.    .----. .-. .-..----. .----..-.  .-.
+-{ {__ {_   _}/ {} \ | {}  }{_   _}   {_   _}| {_} | / {} \{_   _}   | {}  }| { } || {}  }| {}  }\ \/ / 
+-.-._} } | | /  /\  \| .-. \  | |       | |  | { } |/  /\  \ | |     | .--' | {_} || .--' | .--'  }  {  
+-`----'  `-' `-'  `-'`-' `-'  `-'       `-'  `-' `-'`-'  `-' `-'     `-'    `-----'`-'    `-'     `--'  
+-*/
+\ No newline at end of file
++$app->set('flight.views.path', __DIR__ . $ds . '..' . $ds . 'views');
++$app->set('flight.views.extension', '.php');
+\ No newline at end of file
+Index: app/controllers/ItemController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n    namespace app\\controllers;\r\n\r\n    use app\\repositories\\PeoplesItemsRepository;\r\n    use app\\models\\Item;\r\n    use flight\\Engine;\r\n    \r\n\r\n    class ItemController \r\n    {\r\n\r\n        protected Engine $app;\r\n      public function __construct($app)\r\n      {\r\n        $this->app = $app;\r\n      }\r\n      public function prepare($item2_id)\r\n    {\r\n        $pdo = $this->app->db();\r\n        $itemRepo = new PeoplesItemsRepository($pdo);\r\n\r\n        if (session_status() === PHP_SESSION_NONE) \r\n            {\r\n            session_start();\r\n        }\r\n\r\n        $list = $itemRepo->getAllItems($_SESSION['users']['id']);\r\n\r\n        $this->app->render('ui/items/peoples_items', ['items' => $list, 'item2_id' => $item2_id]);\r\n    }\r\n\r\n\r\n\r\n\r\n\r\n\r\n    }\r\n\r\n\r\n\r\n\r\n\r\n?>
+===================================================================
+diff --git a/app/controllers/ItemController.php b/app/controllers/ItemController.php
+--- a/app/controllers/ItemController.php	(revision 8ccd6120cc641c9df01721e5bc82ed27ce323bbf)
++++ b/app/controllers/ItemController.php	(date 1770972828420)
+@@ -5,18 +5,22 @@
+     use app\models\Item;
+     use flight\Engine;
+     
++    session_start();
++    $_SESSION['users']['id']=1;
+ 
+     class ItemController 
+     {
++        
+ 
+         protected Engine $app;
+       public function __construct($app)
+       {
+         $this->app = $app;
++        
+       }
+       public function prepare($item2_id)
+     {
+-        $pdo = $this->app->db();
++        $pdo = $this->app->get('pdo');
+         $itemRepo = new PeoplesItemsRepository($pdo);
+ 
+         if (session_status() === PHP_SESSION_NONE) 
+Index: app/views/ui/items/peoples_items.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php require('app/config/bootstrap.php');  ?>\r\n\r\n<!DOCTYPE html>\r\n<html lang=\"fr\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Voir les objets des autres et échanger</title>\r\n</head>\r\n<body>\r\n    <?php\r\n        if(isset($items) && !empty($items))\r\n        {\r\n            foreach($items as $item)\r\n                {\r\n                ?>\r\n                <div>\r\n                    <p>Titre: <?= $item['title'] ?></p>\r\n                    <p>Déscription: <?= $item['description'] ?></p>\r\n                    <p>Catégorie: <?= $item['category_libelle'] ?></p>\r\n                    <p>Posté le: <?= $item['created_at'] ?></p>\r\n                    <p>Prix estimé: <?= $item['estimated_price'] ?></p>\r\n                    <p>Id: <?= $item['id'] ?></p>\r\n                    <p>Propriétaire: <?= $item['owner_username'] ?></p>\r\n\r\n                    <button type=\"submit\"?$item['id']> Proposer un échange</button>\r\n                </div>\r\n                <?php\r\n            }\r\n        }\r\n        else{\r\n            echo \"Aucun item\";\r\n        }\r\n\r\n    \r\n    \r\n    ?>\r\n</body>\r\n</html>
+===================================================================
+diff --git a/app/views/ui/items/peoples_items.php b/app/views/ui/items/peoples_items.php
+--- a/app/views/ui/items/peoples_items.php	(revision 8ccd6120cc641c9df01721e5bc82ed27ce323bbf)
++++ b/app/views/ui/items/peoples_items.php	(date 1770973511855)
+@@ -1,4 +1,7 @@
+-<?php require('app/config/bootstrap.php');  ?>
++<?php ini_set('display_errors', 1);
++ini_set('display_startup_errors', 1);
++error_reporting(E_ALL);
++?>
+ 
+ <!DOCTYPE html>
+ <html lang="fr">
+@@ -8,6 +11,11 @@
+     <title>Voir les objets des autres et échanger</title>
+ </head>
+ <body>
++<?php
++echo '<pre>';
++print_r($items);
++echo '</pre>';
++?>
+     <?php
+         if(isset($items) && !empty($items))
+         {
