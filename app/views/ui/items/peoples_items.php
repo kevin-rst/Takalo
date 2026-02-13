@@ -1,3 +1,5 @@
+<?php require('app/config/bootstrap.php');  ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -8,7 +10,7 @@
 <body>
     <?php
         if(isset($items) && !empty($items))
-            {
+        {
             foreach($items as $item)
                 {
                 ?>
@@ -18,12 +20,18 @@
                     <p>Catégorie: <?= $item['category_libelle'] ?></p>
                     <p>Posté le: <?= $item['created_at'] ?></p>
                     <p>Prix estimé: <?= $item['estimated_price'] ?></p>
-                    </a>
+                    <p>Id: <?= $item['id'] ?></p>
                     <p>Propriétaire: <?= $item['owner_username'] ?></p>
+
+                    <button type="submit"?$item['id']> Proposer un échange</button>
                 </div>
                 <?php
             }
         }
+        else{
+            echo "Aucun item";
+        }
+
     
     
     ?>

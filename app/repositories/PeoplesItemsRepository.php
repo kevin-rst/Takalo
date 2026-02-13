@@ -15,7 +15,7 @@ class PeoplesItemsRepository {
         FROM takalo_items
         JOIN takalo_categories ON takalo_items.id_category = takalo_categories.id
         JOIN takalo_users ON takalo_items.id_owner = takalo_users.id
-        JOIN takalo_photos ON takalo_items.id_photo = takalo_photos.id where id_owner != $current_id";
+        JOIN takalo_photos ON takalo_items.id_photo = takalo_photos.id where id_owner != ?";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([$current_id]);

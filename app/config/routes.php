@@ -17,3 +17,8 @@ $router->group('', function(Router $router) use ($app) {
 	});
 
 }, [ SecurityHeadersMiddleware::class ]);
+
+$router->get('/ui/@id', function($id) use ($app) {
+    $controller = new \app\controllers\ItemController($app);
+    $controller->prepare($id);
+});
