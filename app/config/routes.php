@@ -1,5 +1,5 @@
 <?php
-
+use app\controllers\ItemController;
 use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
 use flight\net\Router;
@@ -8,6 +8,8 @@ use flight\net\Router;
  * @var Router $router
  * @var Engine $app
  */
+
+use app\controllers\ExchangeController;
 
 $router->group('', function(Router $router) use ($app) {
 
@@ -41,3 +43,36 @@ $router->post('/exchange/propose', function() use ($app) {
         echo "<p style='color:red;'>Veuillez sélectionner un objet.</p>";
     }
 });
+
+// Page pour gérer les échanges
+$router->get('/exchange/manage', function() use ($app) {
+    if(session_status() === PHP_SESSION_NONE) session_start();
+
+    $controller = new \app\controllers\ExchangeController($app);
+    $controller->manage();
+});
+
+// Route pour accepter ou refuser un échange
+$router->post('/exchange/respond', function() use ($app) {
+    if(session_status() === PHP_SESSION_NONE) session_start();
+
+    $controller = new \app\controllers\ExchangeController($app);
+    $controller->respond();
+});
+
+
+$router->get('/exchange/manage', function() use ($app) {
+    $controller = new ExchangeController($app);
+    $controller->manage();
+});
+
+$router->get('/exchange/accept/@id', function($id) use ($app) {
+    $controller = new ExchangeController($app);
+    $controller->accept($id);
+});
+
+$router->get('/exchange/reject/@id', function($id) use ($app) {
+    $controller = new ExchangeController($app);
+    $controller->reject($id);
+});
+
