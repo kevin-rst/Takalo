@@ -24,12 +24,12 @@
                 <div class="item-details">
                     <p><strong>Titre:</strong> <?= $item['title'] ?></p>
                     <p><strong>Description:</strong> <?= $item['description'] ?></p>
-                    <p><strong>Catégorie:</strong> <?= $item['id_category'] ?></p>
+                    <p><strong>Catégorie:</strong> <?= $item['category_libelle'] ?></p>
                     <p><strong>Posté le:</strong> <?= $item['created_at'] ?></p>
                     <p><strong>Prix estimé:</strong> <?= $item['estimated_price'] ?></p>
-                    <p><strong>Propriétaire:</strong> <?= $item['id_owner'] ?></p>
+                    <p><strong>Propriétaire:</strong> <?= $item['owner_username'] ?></p>
 
-                    <form action="<?= $base_url ?>/ui/<?= $item['id'] ?>" method="GET">
+                    <form action="<?= $base_url ?>/ui/items/<?= $item['id'] ?>" method="GET">
                         <button type="submit">Proposer un échange</button>
                     </form>
                 </div>
@@ -40,17 +40,17 @@
     <?php endif; ?>
 
     <?php if(!empty($myItems) && $selectedItem1 !== null): ?>
-    <h2>Choisir votre objet pour l’échange</h2>
-    <form action="<?= $base_url ?>/exchange/propose" method="POST">
-        <input type="hidden" name="item1_id" value="<?= $selectedItem1 ?>">
-        <?php foreach($myItems as $myItem): ?>
-            <div class="my-item">
-                <input type="radio" name="item2_id" value="<?= $myItem['id'] ?>" required>
-                <?= $myItem['title'] ?>
-            </div>
-        <?php endforeach; ?>
-        <button type="submit">Envoyer la demande</button>
-    </form>
-<?php endif; ?>
+        <h2>Choisir votre objet pour l’échange</h2>
+        <form action="<?= $base_url ?>/exchange/propose" method="POST">
+            <input type="hidden" name="item1_id" value="<?= $selectedItem1 ?>">
+            <?php foreach($myItems as $myItem): ?>
+                <div class="my-item">
+                    <input type="radio" name="item2_id" value="<?= $myItem['id'] ?>" required>
+                    <?= $myItem['title'] ?>
+                </div>
+            <?php endforeach; ?>
+            <button type="submit">Envoyer la demande</button>
+        </form>
+    <?php endif; ?>
 </body>
 </html>
